@@ -56,34 +56,3 @@ ansible centos7-dev -m setup
 ansible centos7-prod -m setup
 ansible all -m setup -a 'filter=*ipv4*'
 ansible centos7-prod -m setup --tree facts
-
-
-
-++++++++++ PLAYBOOKS +++++++++++
-
---- =   Begining of the YAML
-#   =   Comments describe
-
-Example1: (httpd.yaml)
-
---- # This is a sample playbook for defining the Ansible Playbook
-- hosts: centos7-dev
-  remote_user: ansible    [you can run non-privileged commands on the remote server]
-  become: yes             [If you want to become sudo root user through become become method, use this option]
-  become_method: sudo     [it will tend to use sudo]
-  connection: ssh         [type of connection, ssh or local connection]
-  gather_facts:           [Get the system os specific entries like memory, OS, state ..etc from client servers]
-  vars:
-    username: myuser
-    passcheck: yes
-  tasks:
-  - name: Install HTTPD servers on centos7-dev group
-    yum:
-      name: httpd
-      state: latest
-    notify:
-    - startservice
-  handlers:
-  - name: startservice
-    service: httpd
-    state: restarted
