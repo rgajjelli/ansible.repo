@@ -1,0 +1,14 @@
+--- # This is to test the variables substitution vars section
+- hosts: '{{ myhosts }}'
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: '{{ gather }}'
+  tasks:
+  - name: Install telnet package
+    yum:
+      name: '{{ pkg }}'
+      state: latest
+    register: result
+  - debug: var=result

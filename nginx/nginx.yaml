@@ -1,0 +1,17 @@
+--- # Notification and Handling events, if you run multiple times ansible-playbook nginx.yaml, it keep restarts which is not a good sign
+- hosts: centos7-dev
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  connection: ssh
+  tasks:
+  - name: Install nginx Web server
+    yum:
+      name: nginx
+      state: latest
+  - name: enable nginx-start service
+    service:
+      name: nginx
+      enabled: yes
+      state: restarted

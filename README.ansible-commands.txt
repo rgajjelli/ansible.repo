@@ -1,4 +1,15 @@
-++++++++ Master ++++++++++
+
+++++++ Mislenious ++++++
+### Create RPM & upload it to Nexus
+
+1. With Dockerfile - create rpm
+ref: https://tecadmin.net/create-rpm-of-your-own-script-in-centosredhat/#
+2. Upload RPM to Nexus
+curl -v -u admin:admin123 --upload-file slashbin-1.0-1.x86_64.rpm http://127.0.0.1:8081/nexus/content/repositories/releases/com/github/diegopacheco/sandbox/devops/fpmtest/1.0.1/fpmtest-1.0.1.rpm
+
+
+
+++++++++ Ansible - Master ++++++++++
 
 cat /etc/ansible/hosts
 > ansible all -m ping
@@ -34,5 +45,45 @@ ansible centos7 -s -m yum -a "name=ntp state=abscent"
 ?? Create user in remote hosts ??
 ansible centos7 -s -m user -a "name=opsadmin"
 
+ansible centos7-dev -s -m user -a "name=opsadmin"
+ansible all -s -m user -a "name=opsadmin"
+
 ?? Remove user from remote hosts ??
-ansible centos7 -s -m user -a "name=opsadmin state=abscent"
+ansible centos7-dev -s -m user -a "name=opsadmin state=abscent"
+
+?? gathering facts ??
+ansible centos7-dev -m setup
+ansible centos7-prod -m setup
+ansible all -m setup -a 'filter=*ipv4*'
+ansible centos7-prod -m setup --tree facts
+
+
+
+++++++++++ PLAYBOOKS +++++++++++
+
+--- =   Begining of the YAML
+#   =   Comments describe
+
+Example1: (httpd.yaml)
+
+--- # This is a sample playbook for defining the Ansible Playbook
+- hosts: centos7-dev
+  remote_user: ansible    [you can run non-privileged commands on the remote server]
+  become: yes             [If you want to become sudo root user through become become method, use this option]
+  become_method: sudo     [it will tend to use sudo]
+  connection: ssh         [type of connection, ssh or local connection]
+  gather_facts:           [Get the system os specific entries like memory, OS, state ..etc from client servers]
+  vars:
+    username: myuser
+    passcheck: yes
+  tasks:
+  - name: Install HTTPD servers on centos7-dev group
+    yum:
+      name: httpd
+      state: latest
+    notify:
+    - startservice
+  handlers:
+  - name: startservice
+    service: httpd
+    state: restarted
