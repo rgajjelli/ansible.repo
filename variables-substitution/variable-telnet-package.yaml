@@ -8,7 +8,7 @@
   vars:
     myhosts: centos7-dev
     gather: yes
-    pkg: telnet
+    pkg: telnet    
   tasks:
   - name: Install telnet package
     yum:

@@ -1,5 +1,5 @@
 --- # This is a sample playbook for defining the Ansible Playbook ansible-playbook httpd.yaml
-- hosts: centos7-dev
+- hosts: all
   remote_user: ansible
   become: yes
   become_method: sudo
@@ -9,13 +9,13 @@
     username: myuser
     passcheck: yes
   tasks:
-  - name: Install HTTPD servers on centos7-dev group
+  - name: Install NGINX servers on ALL groups
     yum:
-      name: httpd
+      name: nginx
       state: latest
-    notify:
-    - startservice
+    notify: startservice
   handlers:
-  - name: startservice
-    service: httpd
-      state: restarted
+    - name: startservice
+      service:
+        name: nginx
+        state: restarted

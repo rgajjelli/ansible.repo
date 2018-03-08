@@ -13,9 +13,9 @@
     yum:
       name: httpd
       state: latest
-    notify:
-    - startservice
+    notify: startservice
   handlers:
-  - name: startservice
-    service: httpd
-    state: restarted
+    - name: startservice
+      service:
+        name: httpd
+        state: restarted

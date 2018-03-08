@@ -40,10 +40,10 @@ a=attributes
 ansible centos7 -s -m yum -a "name=httpd state=latest"
 
 ?? Remove packages ??
-ansible centos7 -s -m yum -a "name=ntp state=abscent"
+ansible centos7 -s -m yum -a "name=ntp state=absent"
 
 ?? Create user in remote hosts ??
-ansible centos7 -s -m user -a "name=opsadmin"
+ansible all -s -m user -a "name=httpd"
 
 ansible centos7-dev -s -m user -a "name=opsadmin"
 ansible all -s -m user -a "name=opsadmin"

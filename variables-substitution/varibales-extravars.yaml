@@ -6,7 +6,7 @@
   connection: ssh
   gather_facts: '{{ gather }}'
   tasks:
-  - name: Install telnet package
+  - name: Install ''{{pkg}}'' package
     yum:
       name: '{{ pkg }}'
       state: latest

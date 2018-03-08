@@ -13,9 +13,8 @@
     yum:
       name: httpd
       state: latest
-    notify:
-    - startservice
-  handlers:
-  - name: startservice
-    service: httpd
-    state: restarted
+  - name: enable httpd service
+    service:
+      name: httpd
+      enabled: yes
+      state: restarted

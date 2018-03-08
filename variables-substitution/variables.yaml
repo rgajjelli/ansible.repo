@@ -1,0 +1,3 @@
+myhosts: all
+gather: yes
+pkg: telnet
