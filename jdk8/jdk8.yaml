@@ -1,5 +1,5 @@
 ---
-- hosts: cents7-dev
+- hosts: dev      # /etc/nsible/hosts
   remote_user: ansible
    #sudo: yes
   become: true
@@ -36,11 +36,11 @@
     file: state=directory path={{java_name}} owner=root group=root recurse=yes
 
   - name: Make Java available for system by updating alternatives
-    command: alternatives --install /usr/bin/java java {{ java_name }}/bin/java 2000
-    command: alternatives --install /usr/bin/jar jar {{ java_name }}/bin/jar 2
-    command: alternatives --install /usr/bin/javac javac {{ java_name }}/bin/javac 2
-    command: alternatives --set jar {{ java_name }}/bin/jar
-    command: alternatives --set javac {{ java_name }}/bin/javac
+    command: 'alternatives --install "/usr/bin/java" "java" "{{java_name}}/bin/java" 2000'
+    command: 'alternatives --install "/usr/bin/jar" "jar" "{{ java_name }}/bin/jar" 1'
+    command: 'alternatives --install "/usr/bin/javac" "javac" "{{ java_name }}/bin/javac" 1'
+    command: 'alternatives --set "jar" "{{ java_name }}/bin/jar" '
+    command: 'alternatives --set "javac" "{{ java_name }}/bin/javac" '
 
   - name: Set systemwide oracle env file under /etc/profile.d/
     set_fact: remote_file_path={{profile_path}}/oracle_jdk.sh

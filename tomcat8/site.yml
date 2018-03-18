@@ -1,0 +1,9 @@
+---
+# oracle-jdk8, tomcat8
+
+- hosts: prod
+  remote_user: ansible
+
+  roles:
+    - oracle-jdk8
+    - tomcat8
