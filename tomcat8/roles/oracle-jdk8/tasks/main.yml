@@ -4,7 +4,7 @@
   yum: name=wget state=present
 
 - name: Download oracle-jdk8
-  shell: 'wget --no-check-certificate --no-cookies - --header "Cookie: oraclelicense=accept-securebackup-cookie" \
+  shell: 'wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
           {{jdk_download_url}} -O /tmp/{{jdk_archive_file}}'
   args:
     creates: /tmp/{{jdk_archive_file}}
@@ -28,4 +28,3 @@
 
 - name: Register /etc/profile
   template: src=profile.d/java.sh dest=/etc/profile.d/java.sh owner=root group=root mode=0744
-
