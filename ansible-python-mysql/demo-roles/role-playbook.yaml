@@ -1,0 +1,7 @@
+---
+- name: Playbook web application
+  hosts: dev_web
+  roles:
+    - python
+    - mysql_db
+    - flask_web

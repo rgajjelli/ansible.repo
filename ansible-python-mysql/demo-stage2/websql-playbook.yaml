@@ -1,0 +1,22 @@
+---
+- name: Playbook web application
+  hosts: dev_web
+  vars_files:
+  - group_vars/db_web.yaml
+  tasks:
+    - name: Install Python dependencies
+      apt:
+        name:
+          - python
+          - python-setuptools
+          - python-dev
+          - build-essential
+          - python-pip
+          - python-pymysql
+          - python-apt
+          - python3-apt
+          - python3-pymysql
+          #- MySQL-python
+        state: present
+    - include: tasks/deploy_db.yaml
+    - include: tasks/deploy_web.yaml

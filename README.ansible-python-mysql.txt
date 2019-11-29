@@ -9,6 +9,10 @@
     ** Create database and database users
 
     sudo mysql -u root -p
+    use mysql;
+    update user set authentication_string=PASSWORD("redhat") where User='root';
+    flush privileges;
+    quit
 
     *mysql> CREATE DATABASE employee_db;
     *mysql> GRANT ALL ON *.* to db_user@'%' IDENTIFIED BY 'vagrant';

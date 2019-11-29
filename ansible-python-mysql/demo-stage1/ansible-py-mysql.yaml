@@ -1,0 +1,60 @@
+---
+- name: *** Playbook for 'Deploy a web application' ***
+  hosts: db_web
+  tasks:
+    - name: Install Python dependencies
+      apt:
+        name:
+          - python
+          - python-setuptools
+          - python-dev
+          - build-essential
+          - python-pip
+          - python-pymysql
+          - python3-pymysql
+          - python-apt
+          - python3-apt
+          - python3-pymysql
+        state: present
+
+    - name: Install MY-SQL database
+      apt:
+        name:
+          - mysql-server
+          - mysql-client
+        state: present
+      become: true
+
+    - name: Start MY-SQL Service.
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: Create Application Database
+      mysql_db:
+        name: employee_db
+        login_user: root
+        login_password:
+        state: present
+
+    - name: Create a Database users
+      mysql_user:
+        name: db_user
+        password: vagrant
+        priv: '*.*:ALL'
+        state: present
+        login_user: root
+        login_password: root
+
+    - name: Install Python Flask dependency
+      pip: name={{ item }} state=present
+      with_items:
+        - flask
+        - flask_mysql
+
+    - name: Copy source code
+      copy: src=/vagrant/ubuntu/ansible.repo/ansible-python-mysql/app.py dest=/opt/app.py
+
+    - name: Start the Web server
+      shell: FLASK_APP=/opt/app.py nohup flask run --host=0.0.0.0 &

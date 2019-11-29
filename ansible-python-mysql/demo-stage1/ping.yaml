@@ -1,0 +1,6 @@
+---
+- name: Deploy a web application
+  hosts: db_web
+  tasks:
+    - name: Install dependencies just try test ping
+      ping:
